@@ -3,15 +3,15 @@ var app = {
   currentQ: 0,
   jsonFile: "questions.json",
   board: $(
-    "<!--- Scores --->" +
-      "<div class='score' id='boardScore'>0</div>" +
-      "<div class='score' id='team1' >0</div>" +
-      "<div class='score' id='team2' >0</div>" +
-      "<!--- Answers --->" +
-      "<div class='colHolder'>" +
-      "<div class='col1'></div>" +
-      "<div class='col2'></div>" +
-      "</div>"
+    "<div class='gameBoard'><!--- Scores --->" +
+    "<div class='score' id='boardScore'>0</div>" +
+    "<div class='score' id='team1' >0</div>" +
+    "<div class='score' id='team2' >0</div>" +
+    "<!--- Answers --->" +
+    "<div class='colHolder'>" +
+    "<div class='col1'></div>" +
+    "<div class='col2'></div>" +
+    "</div></div>"
   ),
   buttons: $(".btnHolder"),
   // Utility functions
@@ -34,7 +34,7 @@ var app = {
     app.questions = Object.keys(data);
     // app.shuffle(app.questions)
     app.makeQuestion(app.currentQ);
-    $(".gameBoard").append(app.board);
+    $(".gameBoard").replaceWith(app.board);
   },
   // Action functions
   makeQuestion: function (qNum) {
@@ -60,22 +60,22 @@ var app = {
       if (qAnswr[i]) {
         aLI = $(
           "<div class='cardHolder'>" +
-            "<div class='card'>" +
-            "<div class='front'>" +
-            "<span class='DBG'>" +
-            (i + 1) +
-            "</span>" +
-            "</div>" +
-            "<div class='back DBG'>" +
-            "<span>" +
-            qAnswr[i][0] +
-            "</span>" +
-            "<b class='LBG'>" +
-            qAnswr[i][1] +
-            "</b>" +
-            "</div>" +
-            "</div>" +
-            "</div>"
+          "<div class='card'>" +
+          "<div class='front'>" +
+          "<span class='DBG'>" +
+          (i + 1) +
+          "</span>" +
+          "</div>" +
+          "<div class='back DBG'>" +
+          "<span>" +
+          qAnswr[i][0] +
+          "</span>" +
+          "<b class='LBG'>" +
+          qAnswr[i][1] +
+          "</b>" +
+          "</div>" +
+          "</div>" +
+          "</div>"
         );
       } else {
         aLI = $("<div class='cardHolder empty'><div></div></div>");
