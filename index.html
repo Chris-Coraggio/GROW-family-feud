@@ -1,31 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>GROW Friendly Feud</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <header>
-      <h1>Friendly<br />Feud</h1>
-      <h2 class="questionHolder">
-        <span class="question"></span>
-      </h2>
-      <img class="logo" alt="GROW logo" src="logo3.png" />
-    </header>
-    <main>
-      <div class="gameBoard"></div>
-    </main>
-    <footer>
-      <div class="btnHolder">
-        <div id="awardTeam1" data-team="1" class="button">Award Team 1</div>
-        <div id="lastQuestion" class="button">Back</div>
-        <div id="newQuestion" class="button">Next</div>
-        <div id="awardTeam2" data-team="2" class="button">Award Team 2</div>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>GROW Friendly Feud</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header>
+    <h1>Friendly<br />Feud</h1>
+    <h2 class="questionHolder">
+      <span class="question"></span>
+    </h2>
+    <img class="logo" alt="GROW logo" src="logo3.png" />
+  </header>
+  <main>
+    <div class="gameArea">
+      <div class="gameBoard">
+        <div class="score" id="boardScore">0</div>
+        <div class="colHolder">
+          <div class="col1"></div>
+          <div class="col2"></div>
+        </div>
+        <div>&nbsp;</div>
       </div>
-    </footer>
-    <script src="TweenMax.min.js"></script>
-    <script src="jquery-2.2.4.min.js"></script>
-    <script src="index.js"></script>
-  </body>
+      <div class="score" id="team1">0</div>
+      <div class="score" id="team2">0</div>
+    </div>
+  </main>
+  <footer>
+    <div class="btnHolder">
+      <button id="awardTeam1" data-team="1" class="button">Award Team 1</button>
+      <button id="lastQuestion" class="button">Back</button>
+      <button id="newQuestion" class="button">Next</button>
+      <button id="awardTeam2" data-team="2" class="button">Award Team 2</button>
+    </div>
+  </footer>
+  <script src="TweenMax.min.js"></script>
+  <script src="jquery-2.2.4.min.js"></script>
+  <script src="index.js"></script>
+</body>
+
 </html>

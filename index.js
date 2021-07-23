@@ -2,17 +2,8 @@ var app = {
   version: 1,
   currentQ: 0,
   jsonFile: "questions.json",
-  board: $(
-    "<div class='gameBoard'><!--- Scores --->" +
-    "<div class='score' id='boardScore'>0</div>" +
-    "<div class='score' id='team1' >0</div>" +
-    "<div class='score' id='team2' >0</div>" +
-    "<!--- Answers --->" +
-    "<div class='colHolder'>" +
-    "<div class='col1'></div>" +
-    "<div class='col2'></div>" +
-    "</div></div>"
-  ),
+  area: $('.gameArea'),
+  board: $('.gameBoard'),
   buttons: $(".btnHolder"),
   // Utility functions
   shuffle: function (array) {
@@ -34,7 +25,6 @@ var app = {
     app.questions = Object.keys(data);
     // app.shuffle(app.questions)
     app.makeQuestion(app.currentQ);
-    $(".gameBoard").replaceWith(app.board);
   },
   // Action functions
   makeQuestion: function (qNum) {
@@ -131,7 +121,7 @@ var app = {
     var num = $(this).attr("data-team");
     var boardScore = app.board.find("#boardScore");
     var currentScore = { var: parseInt(boardScore.html()) };
-    var team = app.board.find("#team" + num);
+    var team = $("#team" + num);
     var teamScore = { var: parseInt(team.html()) };
     var teamScoreUpdated = teamScore.var + currentScore.var;
     TweenMax.to(teamScore, 1, {
