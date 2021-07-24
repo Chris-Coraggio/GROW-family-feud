@@ -1,22 +1,45 @@
 <!DOCTYPE html>
-<html lang="en" >
-<head>
-	<meta charset="UTF-8">
-	<title>GROW Friendly Feud</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body> 
-    <div style="width: 100%; margin-bottom: 40px">
-        <div style="width: 68%; height: 100px; float: left"> 
-            <h1 style="font-size: 70pt; float: right; margin: 0px">Friendly Feud</h1>
-        </div>
-        <div style="margin-left: 68%; height: 100px"> 
-            <img style="float: right;" alt="" src="logo3.png">
-        </div>
-    </div>
-<script src='TweenMax.min.js'></script>
-<script src="jquery-2.2.4.min.js"></script>	
-<script src="index.js"></script>
+<html lang="en">
 
+<head>
+  <meta charset="UTF-8" />
+  <title>GROW Friendly Feud</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header>
+    <h1>Friendly<br />Feud</h1>
+    <h2 class="questionHolder">
+      <span class="question"></span>
+    </h2>
+    <img class="logo" alt="GROW logo" src="logo3.png" />
+  </header>
+  <main>
+    <div class="gameArea">
+      <div class="gameBoard">
+        <div class="score" id="boardScore">0</div>
+        <div class="colHolder">
+          <div class="col1"></div>
+          <div class="col2"></div>
+        </div>
+        <div>&nbsp;</div>
+      </div>
+      <div class="score" id="team1">0</div>
+      <div class="score" id="team2">0</div>
+    </div>
+  </main>
+  <footer>
+    <div class="btnHolder">
+      <button id="awardTeam1" data-team="1" class="button">Award Team 1</button>
+      <button id="lastQuestion" class="button">Back</button>
+      <button id="newQuestion" class="button">Next</button>
+      <button id="awardTeam2" data-team="2" class="button">Award Team 2</button>
+    </div>
+  </footer>
+  <script src="TweenMax.min.js"></script>
+  <script src="jquery-2.2.4.min.js"></script>
+  <script src="index.js"></script>
 </body>
+
 </html>
