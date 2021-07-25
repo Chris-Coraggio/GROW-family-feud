@@ -109,13 +109,7 @@ var app = {
       }
     }
     $.each(cards, tallyScore);
-    TweenMax.to(currentScore, 1, {
-      var: score,
-      onUpdate: function () {
-        boardScore.html(Math.round(currentScore.var));
-      },
-      ease: Power3.easeOut,
-    });
+    boardScore.html(score);
   },
   awardPoints: function (num) {
     var num = $(this).attr("data-team");
@@ -124,21 +118,8 @@ var app = {
     var team = $("#team" + num);
     var teamScore = { var: parseInt(team.html()) };
     var teamScoreUpdated = teamScore.var + currentScore.var;
-    TweenMax.to(teamScore, 1, {
-      var: teamScoreUpdated,
-      onUpdate: function () {
-        team.html(Math.round(teamScore.var));
-      },
-      ease: Power3.easeOut,
-    });
-
-    TweenMax.to(currentScore, 1, {
-      var: 0,
-      onUpdate: function () {
-        boardScore.html(Math.round(currentScore.var));
-      },
-      ease: Power3.easeOut,
-    });
+    team.html(teamScoreUpdated);
+    boardScore.html(0);
   },
   changeQuestion: function () {
     app.currentQ++;
