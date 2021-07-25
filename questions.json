@@ -1,11 +1,93 @@
-{
-    "Practice Round": [],
-    "Name something yellow":[["Sun", 45],["Bananas", 32],["Spongebob", 23]],
-    "Round 1": [],
-    "What are some good ways to find a job?":[["Network", 35],["Check Job Postings", 28],["Internships/Volunteering", 20],["Go To Events", 12]],
-    "Round 2": [],
-    "What should you do with your resume?":[["Customize to each job", 24],["Keep it 1-2 pages", 20],["Highlight accomplishments", 17],["Use power words / action verbs", 14]],
-    "Round 3": [],
-    "What should you do before and during an interview?":[["Be early", 25],["Do research", 20],["Be confident / Be yourself", 17],["Practice", 13], ["Ask questions", 10], ["Dress appropriately", 8], ["Send a thank-you note", 7]],
-    "Good game!": []
-}
+[{
+        "title": "Practice Round",
+        "question": "Name something yellow",
+        "answers": [{
+                "text": "Sun",
+                "points": 45
+            },
+            {
+                "text": "Bananas",
+                "points": 32
+            },
+            {
+                "text": "Spongebob",
+                "points": 23
+            }
+        ]
+    },
+    {
+        "title": "Round 1",
+        "question": "What are some good ways to find a job?",
+        "answers": [{
+                "text": "Network",
+                "points": 35
+            },
+            {
+                "text": "Check Job Postings",
+                "points": 28
+            },
+            {
+                "text": "Internships/Volunteering",
+                "points": 20
+            },
+            {
+                "text": "Go To Events",
+                "points": 12
+            }
+        ]
+    },
+    {
+        "title": "Round 2",
+        "question": "What should you do with your resume?",
+        "answers": [{
+                "text": "Customize to each job",
+                "points": 24
+            },
+            {
+                "text": "Keep it 1-2 pages",
+                "points": 20
+            },
+            {
+                "text": "Highlight accomplishments",
+                "points": 17
+            },
+            {
+                "text": "Use power words / action verbs",
+                "points": 14
+            }
+        ]
+    },
+    {
+        "title": "Round 3",
+        "question": "What should you do before and during an interview?",
+        "answers": [{
+                "text": "Be early",
+                "points": 25
+            },
+            {
+                "text": "Do research",
+                "points": 20
+            },
+            {
+                "text": "Be confident / Be yourself",
+                "points": 17
+            },
+            {
+                "text": "Practice",
+                "points": 13
+            },
+            {
+                "text": "Ask questions",
+                "points": 10
+            },
+            {
+                "text": "Dress appropriately",
+                "points": 8
+            },
+            {
+                "text": "Send a thank-you note",
+                "points": 7
+            }
+        ]
+    }
+]
