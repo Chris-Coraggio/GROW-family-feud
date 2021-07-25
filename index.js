@@ -52,7 +52,7 @@ var app = {
     app.enablePointsButtons();
     app.buttons.find("#newQuestion").off("click").on("click", app.changeQuestion);
 
-    // numberOfAnswers is 8 or the nearest even number (rounded up)
+    // numberOfAnswers is 8 or the nearest even number (rounded up), whichever is highest
     var numberOfAnswers = 2 * Math.ceil(Math.max(8, currentQuestion.answers.length) / 2);
 
     var boardScore = app.board.find("#boardScore");
