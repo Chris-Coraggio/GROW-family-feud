@@ -51,12 +51,12 @@ var app = {
         aLI = $(
           "<div class='cardHolder'>" +
           "<div class='card'>" +
-          "<div class='front'>" +
+          "<div class='card-face front'>" +
           "<span class='DBG'>" +
           (i + 1) +
           "</span>" +
           "</div>" +
-          "<div class='back DBG'>" +
+          "<div class='card-face back DBG'>" +
           "<span>" +
           qAnswr[i][0] +
           "</span>" +
@@ -79,20 +79,12 @@ var app = {
     var backs = app.board.find(".back");
     var cardSides = app.board.find(".card>div");
 
-    TweenLite.set(cardHolders, { perspective: 800 });
-    TweenLite.set(cards, { transformStyle: "preserve-3d" });
-    TweenLite.set(backs, { rotationX: 180 });
-    TweenLite.set(cardSides, { backfaceVisibility: "hidden" });
-
     cards.data("flipped", false);
 
     function showCard() {
       var card = $(".card", this);
-      var flipped = $(card).data("flipped");
-      var cardRotate = flipped ? 0 : -180;
-      TweenLite.to(card, 1, { rotationX: cardRotate, ease: Back.easeOut });
-      flipped = !flipped;
-      $(card).data("flipped", flipped);
+      $(card).toggleClass("flipped");
+      $(card).data("flipped", !$(card).data("flipped"))
       app.getBoardScore();
     }
     cardHolders.on("click", showCard);
