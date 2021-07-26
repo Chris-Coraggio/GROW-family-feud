@@ -71,12 +71,12 @@ var app = {
         aLI = $(
           "<div class='cardHolder'>" +
           "<div class='card'>" +
-          "<div class='front'>" +
+          "<div class='card-face front'>" +
           "<span class='DBG'>" +
           (i + 1) +
           "</span>" +
           "</div>" +
-          "<div class='back DBG'>" +
+          "<div class='card-face back DBG'>" +
           "<span>" +
           answers[i].text +
           "</span>" +
@@ -99,20 +99,12 @@ var app = {
     var backs = app.board.find(".back");
     var cardSides = app.board.find(".card>div");
 
-    TweenLite.set(cardHolders, { perspective: 800 });
-    TweenLite.set(cards, { transformStyle: "preserve-3d" });
-    TweenLite.set(backs, { rotationX: 180 });
-    TweenLite.set(cardSides, { backfaceVisibility: "hidden" });
-
     cards.data("flipped", false);
 
     function showCard() {
       var card = $(".card", this);
-      var flipped = $(card).data("flipped");
-      var cardRotate = flipped ? 0 : -180;
-      TweenLite.to(card, 1, { rotationX: cardRotate, ease: Back.easeOut });
-      flipped = !flipped;
-      $(card).data("flipped", flipped);
+      $(card).toggleClass("flipped");
+      $(card).data("flipped", !$(card).data("flipped"))
       app.getBoardScore();
     }
     cardHolders.on("click", showCard);
@@ -129,13 +121,7 @@ var app = {
       }
     }
     $.each(cards, tallyScore);
-    TweenMax.to(currentScore, 1, {
-      var: score,
-      onUpdate: function () {
-        boardScore.html(Math.round(currentScore.var));
-      },
-      ease: Power3.easeOut,
-    });
+    boardScore.html(score);
   },
   awardPoints: function (num) {
     var num = $(this).attr("data-team");
@@ -144,21 +130,8 @@ var app = {
     var team = $("#team" + num);
     var teamScore = { var: parseInt(team.html()) };
     var teamScoreUpdated = teamScore.var + currentScore.var;
-    TweenMax.to(teamScore, 1, {
-      var: teamScoreUpdated,
-      onUpdate: function () {
-        team.html(Math.round(teamScore.var));
-      },
-      ease: Power3.easeOut,
-    });
-
-    TweenMax.to(currentScore, 1, {
-      var: 0,
-      onUpdate: function () {
-        boardScore.html(Math.round(currentScore.var));
-      },
-      ease: Power3.easeOut,
-    });
+    team.html(teamScoreUpdated);
+    boardScore.html(0);
   },
   changeQuestion: function () {
     if(app.currentQuestionNumber < app.questions.length) {
