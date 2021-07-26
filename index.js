@@ -1,39 +1,59 @@
 var app = {
   version: 1,
-  currentQ: 0,
+  currentQuestionNumber: 0,
   jsonFile: "questions.json",
   area: $('.gameArea'),
   board: $('.gameBoard'),
   buttons: $(".btnHolder"),
   // Utility functions
-  shuffle: function (array) {
-    var currentIndex = array.length,
-      temporaryValue,
-      randomIndex;
-    while (0 !== currentIndex) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-    return array;
-  },
   jsonLoaded: function (data) {
-    console.clear();
-    app.allData = data;
-    app.questions = Object.keys(data);
-    // app.shuffle(app.questions)
-    app.makeQuestion(app.currentQ);
+    console.clear()
+    app.questions = data;
+    app.showTitleThenQuestion(0);
+  },
+  disablePointsButtons: function () {
+    app.buttons.find("#awardTeam1").prop("disabled",true);
+    app.buttons.find("#awardTeam2").prop("disabled",true);
+  },
+  enablePointsButtons: function () {
+    app.buttons.find("#awardTeam1").prop("disabled",false);
+    app.buttons.find("#awardTeam2").prop("disabled",false);
+  },
+  resetBoard: function () {
+    var boardScore = app.board.find("#boardScore");
+    boardScore.html(0)
+    var col1 = app.board.find(".col1");
+    var col2 = app.board.find(".col2");
+    col1.empty();
+    col2.empty();
+    for(var i = 0; i < 4; i++) {
+      $("<div class='cardHolder empty'><div></div></div>").appendTo(col1);
+      $("<div class='cardHolder empty'><div></div></div>").appendTo(col2);
+    }
+  },
+  showTitleThenQuestion: function (currentQuestionNumber) {
+    var currentQuestion = app.questions[currentQuestionNumber];
+    var question = $(".question");
+
+    app.resetBoard();
+    
+    if(currentQuestion.title) {
+      question.html(currentQuestion.title);
+      app.disablePointsButtons();
+      app.buttons.find("#newQuestion").off("click").on("click", () => app.makeQuestion(currentQuestion));
+    } else {
+      app.makeQuestion(currentQuestion);
+    }
   },
   // Action functions
-  makeQuestion: function (qNum) {
-    var qText = app.questions[qNum];
-    var qAnswr = app.allData[qText];
+  makeQuestion: function (currentQuestion) {
 
-    var qNum = qAnswr.length;
-    qNum = qNum < 8 ? 8 : qNum;
-    qNum = qNum % 2 != 0 ? qNum + 1 : qNum;
+    var answers = currentQuestion.answers;
+    app.enablePointsButtons();
+    app.buttons.find("#newQuestion").off("click").on("click", app.changeQuestion);
+
+    // numberOfAnswers is 8 or the nearest even number (rounded up), whichever is highest
+    var numberOfAnswers = 2 * Math.ceil(Math.max(8, currentQuestion.answers.length) / 2);
 
     var boardScore = app.board.find("#boardScore");
     var question = $(".question");
@@ -41,13 +61,13 @@ var app = {
     var col2 = app.board.find(".col2");
 
     boardScore.html(0);
-    question.html(qText.replace(/&x22;/gi, '"'));
+    question.html(currentQuestion.question);
     col1.empty();
     col2.empty();
 
-    for (var i = 0; i < qNum; i++) {
+    for (var i = 0; i < numberOfAnswers; i++) {
       var aLI;
-      if (qAnswr[i]) {
+      if (answers[i]) {
         aLI = $(
           "<div class='cardHolder'>" +
           "<div class='card'>" +
@@ -58,10 +78,10 @@ var app = {
           "</div>" +
           "<div class='back DBG'>" +
           "<span>" +
-          qAnswr[i][0] +
+          answers[i].text +
           "</span>" +
           "<b class='LBG'>" +
-          qAnswr[i][1] +
+          answers[i].points +
           "</b>" +
           "</div>" +
           "</div>" +
@@ -70,7 +90,7 @@ var app = {
       } else {
         aLI = $("<div class='cardHolder empty'><div></div></div>");
       }
-      var parentDiv = i < qNum / 2 ? col1 : col2;
+      var parentDiv = i < numberOfAnswers / 2 ? col1 : col2;
       $(aLI).appendTo(parentDiv);
     }
 
@@ -141,17 +161,22 @@ var app = {
     });
   },
   changeQuestion: function () {
-    app.currentQ++;
-    app.makeQuestion(app.currentQ);
+    if(app.currentQuestionNumber < app.questions.length) {
+      console.log("Incrementing question")
+      app.currentQuestionNumber++;
+    }
+    app.showTitleThenQuestion(app.currentQuestionNumber);
   },
   lastQuestion: function () {
-    app.currentQ--;
-    app.makeQuestion(app.currentQ);
+    if(app.currentQuestionNumber > 0) {
+      app.currentQuestionNumber--;
+    }
+    app.showTitleThenQuestion(app.currentQuestionNumber);
   },
   // Inital function
   init: function () {
     $.getJSON(app.jsonFile, app.jsonLoaded);
-    app.buttons.find("#newQuestion").on("click", app.changeQuestion);
+    app.buttons.find("#newQuestion").off("click").on("click", app.changeQuestion);
     app.buttons.find("#lastQuestion").on("click", app.lastQuestion);
     app.buttons.find("#awardTeam1").on("click", app.awardPoints);
     app.buttons.find("#awardTeam2").on("click", app.awardPoints);
