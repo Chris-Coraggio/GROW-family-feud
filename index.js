@@ -12,12 +12,12 @@ var app = {
     app.showTitleThenQuestion(0);
   },
   disablePointsButtons: function () {
-    app.buttons.find("#awardTeam1").prop("disabled",true);
-    app.buttons.find("#awardTeam2").prop("disabled",true);
+    app.buttons.find("#awardTeam1").prop("disabled", true);
+    app.buttons.find("#awardTeam2").prop("disabled", true);
   },
   enablePointsButtons: function () {
-    app.buttons.find("#awardTeam1").prop("disabled",false);
-    app.buttons.find("#awardTeam2").prop("disabled",false);
+    app.buttons.find("#awardTeam1").prop("disabled", false);
+    app.buttons.find("#awardTeam2").prop("disabled", false);
   },
   resetBoard: function () {
     var boardScore = app.board.find("#boardScore");
@@ -26,7 +26,7 @@ var app = {
     var col2 = app.board.find(".col2");
     col1.empty();
     col2.empty();
-    for(var i = 0; i < 4; i++) {
+    for (var i = 0; i < 4; i++) {
       $("<div class='cardHolder empty'><div></div></div>").appendTo(col1);
       $("<div class='cardHolder empty'><div></div></div>").appendTo(col2);
     }
@@ -36,8 +36,8 @@ var app = {
     var question = $(".question");
 
     app.resetBoard();
-    
-    if(currentQuestion.title) {
+
+    if (currentQuestion.title) {
       question.html(currentQuestion.title);
       app.disablePointsButtons();
       app.buttons.find("#newQuestion").off("click").on("click", () => app.makeQuestion(currentQuestion));
@@ -69,14 +69,14 @@ var app = {
       var aLI;
       if (answers[i]) {
         aLI = $(
-          "<div class='cardHolder'>" +
+          "<button class='cardHolder' aria-live='polite' aria-pressed='false'>" +
           "<div class='card'>" +
           "<div class='card-face front'>" +
           "<span class='DBG'>" +
           (i + 1) +
           "</span>" +
           "</div>" +
-          "<div class='card-face back DBG'>" +
+          "<div class='card-face back DBG' aria-hidden='true'>" +
           "<span>" +
           answers[i].text +
           "</span>" +
@@ -85,7 +85,7 @@ var app = {
           "</b>" +
           "</div>" +
           "</div>" +
-          "</div>"
+          "</button>"
         );
       } else {
         aLI = $("<div class='cardHolder empty'><div></div></div>");
@@ -103,8 +103,11 @@ var app = {
 
     function showCard() {
       var card = $(".card", this);
-      $(card).toggleClass("flipped");
-      $(card).data("flipped", !$(card).data("flipped"))
+      const flipped = !$(card).data("flipped");
+      card.data("flipped", flipped);
+      card.toggleClass("flipped");
+      card.find('.back').attr('aria-hidden', !flipped);
+      $(this).attr('aria-pressed', flipped);
       app.getBoardScore();
     }
     cardHolders.on("click", showCard);
@@ -134,14 +137,14 @@ var app = {
     boardScore.html(0);
   },
   changeQuestion: function () {
-    if(app.currentQuestionNumber < app.questions.length) {
+    if (app.currentQuestionNumber < app.questions.length) {
       console.log("Incrementing question")
       app.currentQuestionNumber++;
     }
     app.showTitleThenQuestion(app.currentQuestionNumber);
   },
   lastQuestion: function () {
-    if(app.currentQuestionNumber > 0) {
+    if (app.currentQuestionNumber > 0) {
       app.currentQuestionNumber--;
     }
     app.showTitleThenQuestion(app.currentQuestionNumber);
