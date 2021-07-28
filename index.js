@@ -2,9 +2,8 @@ var app = {
   version: 1,
   currentQuestionNumber: 0,
   jsonFile: "questions.json",
-  area: $('.gameArea'),
-  board: $('.gameBoard'),
-  buttons: $(".btnHolder"),
+  area: document.querySelector('.gameArea'),
+  board: document.querySelector('.gameBoard'),
   // Utility functions
   jsonLoaded: function (data) {
     console.clear()
@@ -12,20 +11,23 @@ var app = {
     app.showTitleThenQuestion(0);
   },
   disablePointsButtons: function () {
-    app.buttons.find("#awardTeam1").prop("disabled",true);
-    app.buttons.find("#awardTeam2").prop("disabled",true);
+    document.querySelector("#awardTeam1").disabled = true;
+    document.querySelector("#awardTeam2").disabled = true;
   },
   enablePointsButtons: function () {
-    app.buttons.find("#awardTeam1").prop("disabled",false);
-    app.buttons.find("#awardTeam2").prop("disabled",false);
+    document.querySelector("#awardTeam1").disabled = false;
+    document.querySelector("#awardTeam2").disabled = false;
   },
   resetBoard: function () {
-    var boardScore = app.board.find("#boardScore");
-    boardScore.html(0)
-    var col1 = app.board.find(".col1");
-    var col2 = app.board.find(".col2");
-    col1.empty();
-    col2.empty();
+    var boardScore = app.board.querySelector("#boardScore");
+    boardScore.innerHTML = 0;
+    var col1 = app.board.querySelector(".col1");
+    var col2 = app.board.querySelector(".col2");
+    //empty out the two columns
+    while(col1.firstChild)
+      col1.removeChild(col1.firstChild);
+    while(col2.firstChild)
+      col2.removeChild(col2.firstChild);
     for(var i = 0; i < 4; i++) {
       $("<div class='cardHolder empty'><div></div></div>").appendTo(col1);
       $("<div class='cardHolder empty'><div></div></div>").appendTo(col2);
@@ -33,14 +35,14 @@ var app = {
   },
   showTitleThenQuestion: function (currentQuestionNumber) {
     var currentQuestion = app.questions[currentQuestionNumber];
-    var question = $(".question");
+    var question = document.querySelector(".question");
 
     app.resetBoard();
     
     if(currentQuestion.title) {
-      question.html(currentQuestion.title);
+      question.innerHTML = currentQuestion.title;
       app.disablePointsButtons();
-      app.buttons.find("#newQuestion").off("click").on("click", () => app.makeQuestion(currentQuestion));
+      document.querySelector("#newQuestion").onclick = () => app.makeQuestion(currentQuestion);
     } else {
       app.makeQuestion(currentQuestion);
     }
@@ -50,92 +52,98 @@ var app = {
 
     var answers = currentQuestion.answers;
     app.enablePointsButtons();
-    app.buttons.find("#newQuestion").off("click").on("click", app.changeQuestion);
+    document.querySelector("#newQuestion").onclick = app.changeQuestion;
 
     // numberOfAnswers is 8 or the nearest even number (rounded up), whichever is highest
     var numberOfAnswers = 2 * Math.ceil(Math.max(8, currentQuestion.answers.length) / 2);
 
-    var boardScore = app.board.find("#boardScore");
-    var question = $(".question");
-    var col1 = app.board.find(".col1");
-    var col2 = app.board.find(".col2");
+    var boardScore = !!app.board.querySelector("#boardScore");
+    var question = document.querySelector(".question");
+    var col1 = app.board.querySelector(".col1");
+    var col2 = app.board.querySelector(".col2");
 
-    boardScore.html(0);
-    question.html(currentQuestion.question);
-    col1.empty();
-    col2.empty();
-
-    for (var i = 0; i < numberOfAnswers; i++) {
-      var aLI;
-      if (answers[i]) {
-        aLI = $(
-          "<div class='cardHolder'>" +
-          "<div class='card'>" +
-          "<div class='card-face front'>" +
-          "<span class='DBG'>" +
-          (i + 1) +
-          "</span>" +
-          "</div>" +
-          "<div class='card-face back DBG'>" +
-          "<span>" +
-          answers[i].text +
-          "</span>" +
-          "<b class='LBG'>" +
-          answers[i].points +
-          "</b>" +
-          "</div>" +
-          "</div>" +
-          "</div>"
-        );
-      } else {
-        aLI = $("<div class='cardHolder empty'><div></div></div>");
-      }
-      var parentDiv = i < numberOfAnswers / 2 ? col1 : col2;
-      $(aLI).appendTo(parentDiv);
-    }
-
-    var cardHolders = app.board.find(".cardHolder");
-    var cards = app.board.find(".card");
-    var backs = app.board.find(".back");
-    var cardSides = app.board.find(".card>div");
-
-    cards.data("flipped", false);
+    boardScore.innerHTML = 0;
+    question.innerHTML = currentQuestion.question;
+    //empty out the two columns
+    while(col1.firstChild)
+      col1.removeChild(col1.firstChild);
+    while(col2.firstChild)
+      col2.removeChild(col2.firstChild);
 
     function showCard() {
-      var card = $(".card", this);
-      $(card).toggleClass("flipped");
-      $(card).data("flipped", !$(card).data("flipped"))
+      var card = this.querySelector(".card");
+      card.classList.toggle("flipped");
       app.getBoardScore();
     }
-    cardHolders.on("click", showCard);
-  },
-  getBoardScore: function () {
-    var cards = app.board.find(".card");
-    var boardScore = app.board.find("#boardScore");
-    var currentScore = { var: boardScore.html() };
-    var score = 0;
-    function tallyScore() {
-      if ($(this).data("flipped")) {
-        var value = $(this).find("b").html();
-        score += parseInt(value);
+
+    for (var i = 0; i < numberOfAnswers; i++) {
+      var cardHolder;
+      if (answers[i]) {
+
+        cardHolder = document.createElement("div");
+        cardHolder.classList.add("cardHolder");
+        var card = document.createElement("div");
+        card.classList.add("card");
+        var cardFront = document.createElement("div");
+        cardFront.classList.add("card-face", "front");
+        var cardFrontSpan = document.createElement("span");
+        cardFrontSpan.classList.add("DBG");
+        cardFrontSpan.innerHTML = i + 1;
+        var cardBack = document.createElement("div");
+        cardBack.classList.add("card-face", "back", "DBG");
+        var cardBackSpan = document.createElement("span");
+        cardBackSpan.innerHTML = answers[i].text;
+        cardBackB = document.createElement("b");
+        cardBackB.classList.add("LBG");
+        cardBackB.innerHTML = answers[i].points;
+
+        cardHolder.appendChild(card);
+        card.appendChild(cardFront);
+        cardFront.appendChild(cardFrontSpan);
+        card.appendChild(cardBack);
+        cardBack.appendChild(cardBackSpan);
+        cardBack.appendChild(cardBackB);
+
+      } else {
+        cardHolder = document.createElement("div");
+        cardHolder.classList.add("cardHolder", "empty");
+        var emptyDiv = document.createElement("div");
+        cardHolder.appendChild(emptyDiv);
+      }
+
+      cardHolder.onclick = showCard;
+
+      if (i < numberOfAnswers / 2) {
+        col1.appendChild(cardHolder);
+      } else {
+        col2.appendChild(cardHolder);
       }
     }
-    $.each(cards, tallyScore);
-    boardScore.html(score);
+  },
+  getBoardScore: function () {
+    var cards = app.board.querySelectorAll(".card");
+    var boardScore = app.board.querySelector("#boardScore");
+    var currentScore = { var: boardScore.innerHTML };
+    var score = 0;
+    for (var card of cards) {
+      if (card.classList.contains("flipped")) {
+        score += parseInt(card.querySelector("b").innerHTML);
+      }
+    }
+    boardScore.innerHTML = score;
   },
   awardPoints: function (num) {
-    var num = $(this).attr("data-team");
-    var boardScore = app.board.find("#boardScore");
-    var currentScore = { var: parseInt(boardScore.html()) };
-    var team = $("#team" + num);
-    var teamScore = { var: parseInt(team.html()) };
-    var teamScoreUpdated = teamScore.var + currentScore.var;
-    team.html(teamScoreUpdated);
-    boardScore.html(0);
+    var boardScore = app.board.querySelector("#boardScore");
+    var currentScore = parseInt(boardScore.innerHTML);
+    var team = document.querySelector("#team" + num);
+    var teamScore = parseInt(team.innerHTML);
+    console.log(teamScore + " + " + currentScore);
+    var teamScoreUpdated = teamScore + currentScore;
+    team.innerHTML = teamScoreUpdated;
+    boardScore.innerHTML = 0;
   },
   changeQuestion: function () {
     if(app.currentQuestionNumber < app.questions.length) {
-      console.log("Incrementing question")
       app.currentQuestionNumber++;
     }
     app.showTitleThenQuestion(app.currentQuestionNumber);
@@ -148,12 +156,29 @@ var app = {
   },
   // Inital function
   init: function () {
-    $.getJSON(app.jsonFile, app.jsonLoaded);
-    app.buttons.find("#newQuestion").off("click").on("click", app.changeQuestion);
-    app.buttons.find("#lastQuestion").on("click", app.lastQuestion);
-    app.buttons.find("#awardTeam1").on("click", app.awardPoints);
-    app.buttons.find("#awardTeam2").on("click", app.awardPoints);
-  },
+    var request = new XMLHttpRequest();
+    request.open('GET', app.jsonFile, true);
+
+    request.onload = function() {
+      if (this.status >= 200 && this.status < 400) {
+        // Success!
+        var data = JSON.parse(this.response);
+        app.jsonLoaded(data);
+      } else {
+        // We reached our target server, but it returned an error
+      }
+    };
+
+    request.onerror = function() {
+      // There was a connection error of some sort
+    };
+
+    request.send();
+    document.querySelector("#newQuestion").onclick = app.changeQuestion;
+    document.querySelector("#lastQuestion").onclick = app.lastQuestion;
+    document.querySelector("#awardTeam1").onclick = () => app.awardPoints(1);
+    document.querySelector("#awardTeam2").onclick = () => app.awardPoints(2);
+  }
 };
 app.init();
 //http://www.qwizx.com/gssfx/usa/ff.htm
