@@ -24,19 +24,17 @@ var app = {
     var col1 = app.board.querySelector(".col1");
     var col2 = app.board.querySelector(".col2");
     //empty out the two columns
-    while(col1.firstChild)
-      col1.removeChild(col1.firstChild);
-    while(col2.firstChild)
-      col2.removeChild(col2.firstChild);
+    col1.innerHTML = "";
+    col2.innerHTML = "";
     for(var i = 0; i < 4; i++) {
-      var cardHolder = document.createElement("div");
+      var cardHolder = document.createElement("button");
       cardHolder.classList.add("cardHolder", "empty");
       var emptyDiv = document.createElement("div");
       cardHolder.appendChild(emptyDiv);
       col1.appendChild(cardHolder);
     }
     for(var i = 0; i < 4; i++) {
-      var cardHolder = document.createElement("div");
+      var cardHolder = document.createElement("button");
       cardHolder.classList.add("cardHolder", "empty");
       var emptyDiv = document.createElement("div");
       cardHolder.appendChild(emptyDiv);
