@@ -11,22 +11,23 @@
   <header>
     <h1>Friendly<br />Feud</h1>
     <h2 class="questionHolder">
-      <span class="question"></span>
+      <span class="question" aria-live="polite"></span>
     </h2>
     <img class="logo" alt="GROW logo" src="logo3.png" />
   </header>
   <main>
     <div class="gameArea">
       <div class="gameBoard">
-        <div class="score" id="boardScore">0</div>
+        <div class="score" id="boardScore" title="Points to be awarded to the winner of this round"
+          aria-label="Points to be awarded to the winner of this round">0</div>
         <div class="colHolder">
           <div class="col1"></div>
           <div class="col2"></div>
         </div>
         <div>&nbsp;</div>
       </div>
-      <div class="score" id="team1">0</div>
-      <div class="score" id="team2">0</div>
+      <div class="score" id="team1" title="Team 1 score" aria-label="Team 1 score">0</div>
+      <div class="score" id="team2" title="Team 2 score" aria-label="Team 2 score">0</div>
     </div>
   </main>
   <footer>
@@ -37,7 +38,6 @@
       <button id="awardTeam2" data-team="2" class="button">Award Team 2</button>
     </div>
   </footer>
-  <script src="TweenMax.min.js"></script>
   <script src="jquery-2.2.4.min.js"></script>
   <script src="index.js"></script>
 </body>

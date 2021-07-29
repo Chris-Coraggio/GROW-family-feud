@@ -90,7 +90,7 @@ var app = {
       var cardHolder;
       if (answers[i]) {
 
-        cardHolder = document.createElement("div");
+        cardHolder = document.createElement("button");
         cardHolder.classList.add("cardHolder");
         var card = document.createElement("div");
         card.classList.add("card");
@@ -159,7 +159,7 @@ var app = {
     app.showTitleThenQuestion(app.currentQuestionNumber);
   },
   lastQuestion: function () {
-    if(app.currentQuestionNumber > 0) {
+    if (app.currentQuestionNumber > 0) {
       app.currentQuestionNumber--;
     }
     app.showTitleThenQuestion(app.currentQuestionNumber);
