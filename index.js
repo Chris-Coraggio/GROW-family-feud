@@ -29,8 +29,18 @@ var app = {
     while(col2.firstChild)
       col2.removeChild(col2.firstChild);
     for(var i = 0; i < 4; i++) {
-      $("<div class='cardHolder empty'><div></div></div>").appendTo(col1);
-      $("<div class='cardHolder empty'><div></div></div>").appendTo(col2);
+      var cardHolder = document.createElement("div");
+      cardHolder.classList.add("cardHolder", "empty");
+      var emptyDiv = document.createElement("div");
+      cardHolder.appendChild(emptyDiv);
+      col1.appendChild(cardHolder);
+    }
+    for(var i = 0; i < 4; i++) {
+      var cardHolder = document.createElement("div");
+      cardHolder.classList.add("cardHolder", "empty");
+      var emptyDiv = document.createElement("div");
+      cardHolder.appendChild(emptyDiv);
+      col2.appendChild(cardHolder);
     }
   },
   showTitleThenQuestion: function (currentQuestionNumber) {
