@@ -5,6 +5,10 @@
   <meta charset="UTF-8" />
   <title>GROW Friendly Feud</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Raleway:wght@400;700&display=swap"
+    rel="stylesheet">
 </head>
 
 <body>
@@ -26,18 +30,22 @@
         </div>
         <div>&nbsp;</div>
       </div>
-      <div class="score" id="team1" title="Team 1 score" aria-label="Team 1 score">0</div>
-      <div class="score" id="team2" title="Team 2 score" aria-label="Team 2 score">0</div>
+      <div class="team">
+        <h3 contenteditable="true">Team 1</h3>
+        <div class="score" id="team1" title="Team 1 score">0</div>
+        <button id="awardTeam1" data-team="1" class="button">Award points</button>
+      </div>
+      <div class="team">
+        <h3 contenteditable="true">Team 2</h3>
+        <div class="score" id="team2" title="Team 2 score">0</div>
+        <button id="awardTeam2" data-team="2" class="button">Award points</button>
+      </div>
     </div>
   </main>
-  <footer>
-    <div class="btnHolder">
-      <button id="awardTeam1" data-team="1" class="button">Award Team 1</button>
-      <button id="lastQuestion" class="button">Back</button>
-      <button id="newQuestion" class="button">Next</button>
-      <button id="awardTeam2" data-team="2" class="button">Award Team 2</button>
-    </div>
-  </footer>
+  <nav class="btnHolder">
+    <button id="lastQuestion" class="button">Back</button>
+    <button id="newQuestion" class="button">Next</button>
+  </nav>
   <script src="index.js"></script>
 </body>
 
