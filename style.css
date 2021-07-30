@@ -45,9 +45,8 @@ header {
 }
 
 h1 {
-  font: small-caps bold 44px 'Raleway', sans-serif;
+  font-family: 'Raleway', sans-serif;
   margin: 0;
-  text-align: center;
 }
 
 .questionHolder {
@@ -63,8 +62,13 @@ h1 {
 }
 
 h2 {
-  font-family: 'Raleway', sans-serif;
-  margin: 0;
+  background-color: rgba(0, 60, 123, .5);
+  border-radius: 50%;
+  border: 2px solid white;
+  backdrop-filter: blur(5px);
+  font: small-caps bold 36px 'Raleway', sans-serif;
+  margin: 5px;
+  text-align: center;
 }
 
 h3 {
@@ -116,6 +120,15 @@ footer {
   -webkit-box-shadow: 0 1px 24px 1px rgba(0, 0, 0, 0.48);
   -moz-box-shadow: 0 1px 24px 1px rgba(0, 0, 0, 0.48);
   box-shadow: 0 1px 24px 1px rgba(0, 0, 0, 0.48);
+}
+
+.gameBoard > .top {
+  display: grid;
+  grid-template-columns: 150px 169px 150px;
+  grid-auto-flow: dense;
+  align-items: center;
+  justify-content: space-evenly;
+  justify-self: stretch;
 }
 
 .gameBoard .cardHolder > div,
@@ -179,6 +192,12 @@ footer {
   }
   .gameArea>.score {
     grid-row: 2;
+  }
+  .gameBoard > .top {
+    grid-template-columns: 169px;
+  }
+  .top > .logo {
+    display: none;
   }
   .gameBoard {
     grid-column-start: 1;
