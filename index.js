@@ -1,6 +1,7 @@
 var app = {
   version: 1,
   currentQuestionNumber: 0,
+  strikes: 0,
   jsonFile: "questions.json",
   area: document.querySelector('.gameArea'),
   board: document.querySelector('.gameBoard'),
@@ -26,14 +27,14 @@ var app = {
     //empty out the two columns
     col1.innerHTML = "";
     col2.innerHTML = "";
-    for(var i = 0; i < 4; i++) {
+    for (var i = 0; i < 4; i++) {
       var cardHolder = document.createElement("button");
       cardHolder.classList.add("cardHolder", "empty");
       var emptyDiv = document.createElement("div");
       cardHolder.appendChild(emptyDiv);
       col1.appendChild(cardHolder);
     }
-    for(var i = 0; i < 4; i++) {
+    for (var i = 0; i < 4; i++) {
       var cardHolder = document.createElement("button");
       cardHolder.classList.add("cardHolder", "empty");
       var emptyDiv = document.createElement("div");
@@ -46,8 +47,8 @@ var app = {
     var question = document.querySelector(".question");
 
     app.resetBoard();
-    
-    if(currentQuestion.title) {
+
+    if (currentQuestion.title) {
       question.innerHTML = currentQuestion.title;
       app.disablePointsButtons();
       document.querySelector("#newQuestion").onclick = () => app.makeQuestion(currentQuestion);
@@ -73,9 +74,9 @@ var app = {
     boardScore.innerHTML = 0;
     question.innerHTML = currentQuestion.question;
     //empty out the two columns
-    while(col1.firstChild)
+    while (col1.firstChild)
       col1.removeChild(col1.firstChild);
-    while(col2.firstChild)
+    while (col2.firstChild)
       col2.removeChild(col2.firstChild);
 
     function showCard() {
@@ -151,9 +152,10 @@ var app = {
     boardScore.innerHTML = 0;
   },
   changeQuestion: function () {
-    if(app.currentQuestionNumber < app.questions.length) {
+    if (app.currentQuestionNumber < app.questions.length) {
       app.currentQuestionNumber++;
     }
+    app.strikes = 0;
     app.showTitleThenQuestion(app.currentQuestionNumber);
   },
   lastQuestion: function () {
@@ -162,12 +164,26 @@ var app = {
     }
     app.showTitleThenQuestion(app.currentQuestionNumber);
   },
+  addStrike: function () {
+    app.strikes = (app.strikes + 1) % 4;
+    if (app.strikes > 0) {
+      // TODO: show big strikes overlay
+    }
+    app.displayStrikes();
+  },
+  displayStrikes: function () {
+    window.requestAnimationFrame(() => {
+      app.board.querySelectorAll('.strike').forEach((element, index) => {
+        element.style.display = index < app.strikes ? 'inline' : 'none';
+      });
+    });
+  },
   // Inital function
   init: function () {
     var request = new XMLHttpRequest();
     request.open('GET', app.jsonFile, true);
 
-    request.onload = function() {
+    request.onload = function () {
       if (this.status >= 200 && this.status < 400) {
         // Success!
         var data = JSON.parse(this.response);
@@ -177,7 +193,7 @@ var app = {
       }
     };
 
-    request.onerror = function() {
+    request.onerror = function () {
       // There was a connection error of some sort
     };
 
@@ -186,6 +202,7 @@ var app = {
     document.querySelector("#lastQuestion").onclick = app.lastQuestion;
     document.querySelector("#awardTeam1").onclick = () => app.awardPoints(1);
     document.querySelector("#awardTeam2").onclick = () => app.awardPoints(2);
+    document.querySelector("#strikeButton").onclick = app.addStrike;
   }
 };
 app.init();

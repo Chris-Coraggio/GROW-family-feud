@@ -29,7 +29,30 @@
           <div class="col1"></div>
           <div class="col2"></div>
         </div>
-        <div>&nbsp;</div>
+        <div class="bottom">
+          <div id="strikeHolder">
+            <svg xlmns="http://www.w3.org/2000/svg" width="150px" height="50px">
+              <defs>
+                <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
+                  <stop style="stop-color: #e9cece" offset="0%" />
+                  <stop style="stop-color: #deaaaa" offset="17%" />
+                  <stop style="stop-color: #c76161" offset="50%" />
+                  <stop style="stop-color: #c33a3a" offset="51%" />
+                  <stop style="stop-color: #d64141" offset="59%" />
+                  <stop style="stop-color: #f04b4b" offset="71%" />
+                  <stop style="stop-color: #c23a3a" offset="84%" />
+                  <stop style="stop-color: #8b2626" offset="100%" />
+                </linearGradient>
+              </defs>
+              <text aria-live="polite" x="50%" y="50%" dominant-baseline="mathematical" style="fill: url(#gradient)"
+                text-anchor="middle">
+                <tspan class="strike">☒</tspan>
+                <tspan class="strike">☒</tspan>
+                <tspan class="strike">☒</tspan>
+              </text>
+            </svg>
+          </div><button id="strikeButton" class="button">Strike</button>
+        </div>
       </div>
       <div class="team">
         <h3 contenteditable="true">Team 1</h3>
