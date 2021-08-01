@@ -168,7 +168,7 @@ var app = {
   addStrike: function () {
     app.strikes = (app.strikes + 1) % 4;
     if (app.strikes > 0) {
-      // TODO: show big strikes overlay
+      app.flashStrikes();
     }
     app.displayStrikes();
   },
@@ -178,6 +178,25 @@ var app = {
         element.style.display = index < app.strikes ? 'inline' : 'none';
       });
     });
+  },
+  flashStrikes: function () {
+    if (app.strikeFlashTimeout) {
+      return;
+    }
+    const button = app.board.querySelector('#strikeButton');
+    window.requestAnimationFrame(() => {
+      const strikes = app.board.querySelector('#strikes');
+      const rect = strikes.getBoundingClientRect();
+      // Scale up 95% as much as the window can contain
+      const scale = Math.min(document.documentElement.clientWidth / rect.width, window.innerHeight / rect.height) * 0.95;
+      const centerOfStrikes = { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 }; // relative to viewport
+      const centerOfViewport = { x: document.documentElement.clientWidth / 2, y: window.innerHeight / 2 }; // relative to viewport
+      strikes.style.transform = `translateX(${Math.floor(centerOfViewport.x - centerOfStrikes.x)}px) translateY(${Math.floor(centerOfViewport.y - centerOfStrikes.y)}px) scale(${scale})`;
+    });
+    app.strikeFlashTimeout = setTimeout(() => {
+      strikes.style.transform = '';
+      app.strikeFlashTimeout = null;
+    }, 1000);
   },
   // Inital function
   init: function () {
