@@ -156,6 +156,7 @@ var app = {
       app.currentQuestionNumber++;
     }
     app.strikes = 0;
+    app.displayStrikes();
     app.showTitleThenQuestion(app.currentQuestionNumber);
   },
   lastQuestion: function () {
