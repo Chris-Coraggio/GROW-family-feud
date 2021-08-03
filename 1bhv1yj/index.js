@@ -1,13 +1,16 @@
 var app = {
   version: 1,
   currentQuestionNumber: 0,
-  jsonFile: "questions.json",
+  jsonFile: "config.json",
+  strikes: 0,
   area: document.querySelector('.gameArea'),
   board: document.querySelector('.gameBoard'),
   // Utility functions
   jsonLoaded: function (data) {
-    console.clear()
-    app.questions = data;
+    console.clear();
+    var gameTitle = data.gameTitle || "Friendly Feud";
+    document.querySelector(".gameTitle").innerHTML = gameTitle;
+    app.questions = data.questions;
     app.showTitleThenQuestion(0);
   },
   disablePointsButtons: function () {
@@ -26,14 +29,14 @@ var app = {
     //empty out the two columns
     col1.innerHTML = "";
     col2.innerHTML = "";
-    for(var i = 0; i < 4; i++) {
+    for (var i = 0; i < 4; i++) {
       var cardHolder = document.createElement("button");
       cardHolder.classList.add("cardHolder", "empty");
       var emptyDiv = document.createElement("div");
       cardHolder.appendChild(emptyDiv);
       col1.appendChild(cardHolder);
     }
-    for(var i = 0; i < 4; i++) {
+    for (var i = 0; i < 4; i++) {
       var cardHolder = document.createElement("button");
       cardHolder.classList.add("cardHolder", "empty");
       var emptyDiv = document.createElement("div");
@@ -46,8 +49,8 @@ var app = {
     var question = document.querySelector(".question");
 
     app.resetBoard();
-    
-    if(currentQuestion.title) {
+
+    if (currentQuestion.title) {
       question.innerHTML = currentQuestion.title;
       app.disablePointsButtons();
       document.querySelector("#newQuestion").onclick = () => app.makeQuestion(currentQuestion);
@@ -73,9 +76,9 @@ var app = {
     boardScore.innerHTML = 0;
     question.innerHTML = currentQuestion.question;
     //empty out the two columns
-    while(col1.firstChild)
+    while (col1.firstChild)
       col1.removeChild(col1.firstChild);
-    while(col2.firstChild)
+    while (col2.firstChild)
       col2.removeChild(col2.firstChild);
 
     function showCard() {
@@ -145,15 +148,16 @@ var app = {
     var currentScore = parseInt(boardScore.innerHTML);
     var team = document.querySelector("#team" + num);
     var teamScore = parseInt(team.innerHTML);
-    console.log(teamScore + " + " + currentScore);
     var teamScoreUpdated = teamScore + currentScore;
     team.innerHTML = teamScoreUpdated;
     boardScore.innerHTML = 0;
   },
   changeQuestion: function () {
-    if(app.currentQuestionNumber < app.questions.length) {
+    if (app.currentQuestionNumber < app.questions.length) {
       app.currentQuestionNumber++;
     }
+    app.strikes = 0;
+    app.displayStrikes();
     app.showTitleThenQuestion(app.currentQuestionNumber);
   },
   lastQuestion: function () {
@@ -162,30 +166,70 @@ var app = {
     }
     app.showTitleThenQuestion(app.currentQuestionNumber);
   },
+  addStrike: function () {
+    app.strikes = (app.strikes + 1) % 4;
+    if (app.strikes > 0) {
+      app.flashStrikes();
+    }
+    app.displayStrikes();
+  },
+  displayStrikes: function () {
+    window.requestAnimationFrame(() => {
+      app.board.querySelectorAll('.strike').forEach((element, index) => {
+        element.style.display = index < app.strikes ? 'inline' : 'none';
+      });
+    });
+  },
+  flashStrikes: function () {
+    if (app.strikeFlashTimeout) {
+      return;
+    }
+    const button = app.board.querySelector('#strikeButton');
+    window.requestAnimationFrame(() => {
+      const strikes = app.board.querySelector('#strikes');
+      const rect = strikes.getBoundingClientRect();
+      // Scale up 95% as much as the window can contain
+      const scale = Math.min(document.documentElement.clientWidth / rect.width, window.innerHeight / rect.height) * 0.95;
+      const centerOfStrikes = { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 }; // relative to viewport
+      const centerOfViewport = { x: document.documentElement.clientWidth / 2, y: window.innerHeight / 2 }; // relative to viewport
+      strikes.style.transform = `translateX(${Math.floor(centerOfViewport.x - centerOfStrikes.x)}px) translateY(${Math.floor(centerOfViewport.y - centerOfStrikes.y)}px) scale(${scale})`;
+    });
+    app.strikeFlashTimeout = setTimeout(() => {
+      strikes.style.transform = '';
+      app.strikeFlashTimeout = null;
+    }, 1000);
+  },
   // Inital function
   init: function () {
     var request = new XMLHttpRequest();
-    request.open('GET', app.jsonFile, true);
 
-    request.onload = function() {
+    request.onload = function(event) {
+      var jsonFilePath = event.target.responseURL;
       if (this.status >= 200 && this.status < 400) {
         // Success!
-        var data = JSON.parse(this.response);
-        app.jsonLoaded(data);
+        try{
+          var data = JSON.parse(this.response);
+          app.jsonLoaded(data);
+        } catch (e) {
+          document.body.innerHTML = "Something seems to be wrong with " + jsonFilePath + " :/. Please validate the JSON and try again.\n" + e;
+        }
       } else {
-        // We reached our target server, but it returned an error
+        document.body.innerHTML = "Error getting JSON file at " + jsonFilePath + ". Server returned code " + this.status + " and response\n" + this.response;
       }
     };
 
-    request.onerror = function() {
-      // There was a connection error of some sort
-    };
+    request.onerror = function (error) {
+      document.body.innerHTML = "Error getting JSON file at " + jsonFilePath + ".\n" + error;
+    }
 
+    request.open('GET', app.jsonFile);
     request.send();
+
     document.querySelector("#newQuestion").onclick = app.changeQuestion;
     document.querySelector("#lastQuestion").onclick = app.lastQuestion;
     document.querySelector("#awardTeam1").onclick = () => app.awardPoints(1);
     document.querySelector("#awardTeam2").onclick = () => app.awardPoints(2);
+    document.querySelector("#strikeButton").onclick = app.addStrike;
   }
 };
 app.init();

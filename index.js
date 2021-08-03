@@ -8,7 +8,6 @@ const simpleHash = (str) => {
   return new Uint32Array([hash])[0].toString(36);
 };
 
-
 const loadPage = (pwd) => {
 
   console.log(pwd);
@@ -42,7 +41,6 @@ const loadPage = (pwd) => {
   request.open('GET', url);
   request.send();
 }
-
 
 const login = () => {
   let password = document.getElementById("password").value;
