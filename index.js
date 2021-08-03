@@ -8,7 +8,6 @@ var app = {
   jsonLoaded: function (data) {
     console.clear();
     var gameTitle = data.gameTitle ? data.gameTitle : "Family Feud";
-    console.log(gameTitle);
     document.querySelector(".gameTitle").innerHTML = gameTitle;
     app.questions = data.questions;
     app.showTitleThenQuestion(0);
@@ -148,7 +147,6 @@ var app = {
     var currentScore = parseInt(boardScore.innerHTML);
     var team = document.querySelector("#team" + num);
     var teamScore = parseInt(team.innerHTML);
-    console.log(teamScore + " + " + currentScore);
     var teamScoreUpdated = teamScore + currentScore;
     team.innerHTML = teamScoreUpdated;
     boardScore.innerHTML = 0;
@@ -170,23 +168,22 @@ var app = {
     var request = new XMLHttpRequest();
 
     request.onload = function(event) {
-      console.log("What")
+      var jsonFilePath = event.target.responseURL;
       if (this.status >= 200 && this.status < 400) {
         // Success!
         try{
           var data = JSON.parse(this.response);
           app.jsonLoaded(data);
         } catch (e) {
-          alert("Something seems to be wrong with " + event.target.responseURL + " :/. Please validate the JSON and try again.\n" + e);
+          alert("Something seems to be wrong with " + jsonFilePath + " :/. Please validate the JSON and try again.\n" + e);
         }
       } else {
-        // We reached our target server, but it returned an error
-        console.log("Error parsing JSON!");
+        alert("Error getting JSON file at " + jsonFilePath + ". Server returned code " + this.status + " and response\n" + this.response);
       }
     };
 
-    request.onerror = function () {
-      console.log("Ah shoot");
+    request.onerror = function (error) {
+      alert("Error getting JSON file at " + jsonFilePath + ".\n" + error);
     }
 
     request.open('GET', app.jsonFile);
