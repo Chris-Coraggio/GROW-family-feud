@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>GROW Friendly Feud</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Raleway:wght@400;700&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <h2 class="questionHolder">
+      <span class="question" aria-live="polite"></span>
+    </h1>
+  </header>
+  <main>
+    <div class="gameArea">
+      <div class="gameBoard">
+        <div class="top">
+          <h2 class="gameTitle"></h2>
+          <div class="score" id="boardScore" title="Points to be awarded to the winner of this round">0</div>
+          <img class="logo" alt="GROW logo" src="logo3.png" />
+        </div>
+        <div class="colHolder">
+          <div class="col1"></div>
+          <div class="col2"></div>
+        </div>
+        <div class="bottom">
+          <svg xlmns="http://www.w3.org/2000/svg" width="150px" height="50px" id="strikes">
+            <defs>
+              <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
+                <stop style="stop-color: #e9cece" offset="0%" />
+                <stop style="stop-color: #deaaaa" offset="17%" />
+                <stop style="stop-color: #c76161" offset="50%" />
+                <stop style="stop-color: #c33a3a" offset="51%" />
+                <stop style="stop-color: #d64141" offset="59%" />
+                <stop style="stop-color: #f04b4b" offset="71%" />
+                <stop style="stop-color: #c23a3a" offset="84%" />
+                <stop style="stop-color: #8b2626" offset="100%" />
+              </linearGradient>
+            </defs>
+            <text x="50%" y="50%" dominant-baseline="mathematical" style="fill: url(#gradient)" text-anchor="middle">
+              <tspan class="strike">☒</tspan>
+              <tspan class="strike">☒</tspan>
+              <tspan class="strike">☒</tspan>
+            </text>
+          </svg>
+          <button id="strikeButton" class="button">Strike</button>
+        </div>
+      </div>
+      <div class="team">
+        <h3 contenteditable="true">Team 1</h3>
+        <div class="score" id="team1" title="Team 1 score">0</div>
+        <button id="awardTeam1" data-team="1" class="button">Award points</button>
+      </div>
+      <div class="team">
+        <h3 contenteditable="true">Team 2</h3>
+        <div class="score" id="team2" title="Team 2 score">0</div>
+        <button id="awardTeam2" data-team="2" class="button">Award points</button>
+      </div>
+    </div>
+  </main>
+  <nav class="btnHolder">
+    <button id="lastQuestion" class="button">Back</button>
+    <button id="newQuestion" class="button">Next</button>
+  </nav>
+  <script src="index.js"></script>
+</body>
+
+</html>
