@@ -1,14 +1,16 @@
 var app = {
   version: 1,
   currentQuestionNumber: 0,
+  jsonFile: "config.json",
   strikes: 0,
-  jsonFile: "questions.json",
   area: document.querySelector('.gameArea'),
   board: document.querySelector('.gameBoard'),
   // Utility functions
   jsonLoaded: function (data) {
-    console.clear()
-    app.questions = data;
+    console.clear();
+    var gameTitle = data.gameTitle || "Friendly Feud";
+    document.querySelector(".gameTitle").innerHTML = gameTitle;
+    app.questions = data.questions;
     app.showTitleThenQuestion(0);
   },
   disablePointsButtons: function () {
@@ -146,7 +148,6 @@ var app = {
     var currentScore = parseInt(boardScore.innerHTML);
     var team = document.querySelector("#team" + num);
     var teamScore = parseInt(team.innerHTML);
-    console.log(teamScore + " + " + currentScore);
     var teamScoreUpdated = teamScore + currentScore;
     team.innerHTML = teamScoreUpdated;
     boardScore.innerHTML = 0;
@@ -201,23 +202,29 @@ var app = {
   // Inital function
   init: function () {
     var request = new XMLHttpRequest();
-    request.open('GET', app.jsonFile, true);
 
-    request.onload = function () {
+    request.onload = function(event) {
+      var jsonFilePath = event.target.responseURL;
       if (this.status >= 200 && this.status < 400) {
         // Success!
-        var data = JSON.parse(this.response);
-        app.jsonLoaded(data);
+        try{
+          var data = JSON.parse(this.response);
+          app.jsonLoaded(data);
+        } catch (e) {
+          document.innerHTML = "Something seems to be wrong with " + jsonFilePath + " :/. Please validate the JSON and try again.\n" + e;
+        }
       } else {
-        // We reached our target server, but it returned an error
+        document.innerHTML = "Error getting JSON file at " + jsonFilePath + ". Server returned code " + this.status + " and response\n" + this.response;
       }
     };
 
-    request.onerror = function () {
-      // There was a connection error of some sort
-    };
+    request.onerror = function (error) {
+      document.innerHTML = "Error getting JSON file at " + jsonFilePath + ".\n" + error;
+    }
 
+    request.open('GET', app.jsonFile);
     request.send();
+
     document.querySelector("#newQuestion").onclick = app.changeQuestion;
     document.querySelector("#lastQuestion").onclick = app.lastQuestion;
     document.querySelector("#awardTeam1").onclick = () => app.awardPoints(1);
