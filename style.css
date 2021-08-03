@@ -19,13 +19,10 @@ html {
 
 body {
   background: #a7cfdf;
-  background: -moz-linear-gradient(top, #a7cfdf 0%, #23538a 100%);
-  background: -webkit-linear-gradient(top, #a7cfdf 0%, #23538a 100%);
   background: linear-gradient(to bottom, #a7cfdf 0%, #23538a 100%) fixed;
   display: grid;
   grid-template-rows: auto 1fr auto;
   grid-template-columns: 1fr;
-  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#a7cfdf', endColorstr='#23538a', GradientType=0);
   min-height: 100%;
 }
 
@@ -100,7 +97,6 @@ footer {
   grid-template-columns: 129px minmax(318px, 1fr) 129px;
   grid-auto-flow: dense;
   justify-items: center;
-  margin-bottom: -124px;
 }
 
 .gameBoard {
@@ -117,8 +113,6 @@ footer {
   /*background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/40041/bgFF.svg') #3a84c3;*/
   background-repeat: repeat;
   background-position: center center;
-  -webkit-box-shadow: 0 1px 24px 1px rgba(0, 0, 0, 0.48);
-  -moz-box-shadow: 0 1px 24px 1px rgba(0, 0, 0, 0.48);
   box-shadow: 0 1px 24px 1px rgba(0, 0, 0, 0.48);
 }
 
@@ -129,6 +123,12 @@ footer {
   align-items: center;
   justify-content: space-evenly;
   justify-self: stretch;
+}
+
+.gameBoard > .bottom {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 150px);
+  align-self: flex-start;
 }
 
 .gameBoard .cardHolder > div,
@@ -167,8 +167,6 @@ footer {
   height: 94px;
   line-height: 50px;
   padding: 20px;
-  -webkit-box-shadow: inset 0 1px 24px 1px rgba(0, 0, 0, 0.48);
-  -moz-box-shadow: inset 0 1px 24px 1px rgba(0, 0, 0, 0.48);
   box-shadow: inset 0 1px 24px 1px rgba(0, 0, 0, 0.48);
   user-select: none;
 }
@@ -202,7 +200,7 @@ footer {
   .gameBoard {
     grid-column-start: 1;
     grid-column-end: 3;
-    margin-bottom: -124px;
+    margin-bottom: -120px;
   }
 }
 
@@ -231,8 +229,6 @@ footer {
 .gameBoard .colHolder > div {
   display: block;
   width: 100%;
-  -webkit-box-shadow: 0 1px 24px 1px rgba(0, 0, 0, 0.48);
-  -moz-box-shadow: 0 1px 24px 1px rgba(0, 0, 0, 0.48);
   box-shadow: 0 1px 24px 1px rgba(0, 0, 0, 0.48);
 }
 .gameBoard .cardHolder {
@@ -260,6 +256,12 @@ footer {
   transition: transform .7s;
   transform-style: preserve-3d;
   width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gameBoard .cardHolder > div {
+    transition: none;
+  }
 }
 .gameBoard .cardHolder b {
   position: absolute;
@@ -307,6 +309,21 @@ footer {
   margin: auto;
   border: 2px solid #003c7b;
 }
+.gameBoard #strikes {
+  pointer-events: none;
+  transition: all 0.05s ease-in;
+  transform: scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .gameBoard #strikes {
+    transition: none;
+  }
+}
+.gameBoard .strike {
+  display: none;
+  font: bold 36px 'Raleway', sans-serif;
+}
+
 nav {
   backdrop-filter: blur(5px);
   padding: 5px;
