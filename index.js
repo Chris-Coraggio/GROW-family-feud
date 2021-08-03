@@ -8,7 +8,7 @@ var app = {
   // Utility functions
   jsonLoaded: function (data) {
     console.clear();
-    var gameTitle = data.gameTitle || "Family Feud";
+    var gameTitle = data.gameTitle || "Friendly Feud";
     document.querySelector(".gameTitle").innerHTML = gameTitle;
     app.questions = data.questions;
     app.showTitleThenQuestion(0);
