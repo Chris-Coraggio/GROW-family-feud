@@ -7,7 +7,7 @@ var app = {
   // Utility functions
   jsonLoaded: function (data) {
     console.clear();
-    var gameTitle = data.gameTitle ? data.gameTitle : "Family Feud";
+    var gameTitle = data.gameTitle || "Family Feud";
     document.querySelector(".gameTitle").innerHTML = gameTitle;
     app.questions = data.questions;
     app.showTitleThenQuestion(0);
@@ -175,15 +175,15 @@ var app = {
           var data = JSON.parse(this.response);
           app.jsonLoaded(data);
         } catch (e) {
-          alert("Something seems to be wrong with " + jsonFilePath + " :/. Please validate the JSON and try again.\n" + e);
+          document.innerHTML = "Something seems to be wrong with " + jsonFilePath + " :/. Please validate the JSON and try again.\n" + e;
         }
       } else {
-        alert("Error getting JSON file at " + jsonFilePath + ". Server returned code " + this.status + " and response\n" + this.response);
+        document.innerHTML = "Error getting JSON file at " + jsonFilePath + ". Server returned code " + this.status + " and response\n" + this.response;
       }
     };
 
     request.onerror = function (error) {
-      alert("Error getting JSON file at " + jsonFilePath + ".\n" + error);
+      document.innerHTML = "Error getting JSON file at " + jsonFilePath + ".\n" + error;
     }
 
     request.open('GET', app.jsonFile);
