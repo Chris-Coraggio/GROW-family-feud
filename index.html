@@ -8,37 +8,18 @@
 </head>
 
 <body>
-  <header>
-    <h1>Friendly<br />Feud</h1>
-    <h2 class="questionHolder">
-      <span class="question" aria-live="polite"></span>
-    </h2>
-    <img class="logo" alt="GROW logo" src="logo3.png" />
-  </header>
-  <main>
-    <div class="gameArea">
-      <div class="gameBoard">
-        <div class="score" id="boardScore" title="Points to be awarded to the winner of this round"
-          aria-label="Points to be awarded to the winner of this round">0</div>
-        <div class="colHolder">
-          <div class="col1"></div>
-          <div class="col2"></div>
-        </div>
-        <div>&nbsp;</div>
-      </div>
-      <div class="score" id="team1" title="Team 1 score" aria-label="Team 1 score">0</div>
-      <div class="score" id="team2" title="Team 2 score" aria-label="Team 2 score">0</div>
-    </div>
-  </main>
-  <footer>
-    <div class="btnHolder">
-      <button id="awardTeam1" data-team="1" class="button">Award Team 1</button>
-      <button id="lastQuestion" class="button">Back</button>
-      <button id="newQuestion" class="button">Next</button>
-      <button id="awardTeam2" data-team="2" class="button">Award Team 2</button>
-    </div>
-  </footer>
-  <script src="index.js"></script>
+	<div id="loginbox" class="lightbox" >
+	<div class="horizontal">
+		<div class="vertical">
+			<div class="box">
+				<p>Please enter the password to continue to Friendly Feud:</p>
+				<input style="margin: 16px; text-align: center;" id="password" type="password" placeholder="password" /> <br />
+				<button id="loginbutton" type="button" onclick="login()">Enter</button>
+				<p id="wrongPassword" style="visibility: hidden">wrong password</p>
+			</div>
+		</div>
+	</div>
+	</div>
 </body>
 
-</html>
+<script src="index.js"></script>
