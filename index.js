@@ -211,15 +211,15 @@ var app = {
           var data = JSON.parse(this.response);
           app.jsonLoaded(data);
         } catch (e) {
-          document.innerHTML = "Something seems to be wrong with " + jsonFilePath + " :/. Please validate the JSON and try again.\n" + e;
+          document.body.innerHTML = "Something seems to be wrong with " + jsonFilePath + " :/. Please validate the JSON and try again.\n" + e;
         }
       } else {
-        document.innerHTML = "Error getting JSON file at " + jsonFilePath + ". Server returned code " + this.status + " and response\n" + this.response;
+        document.body.innerHTML = "Error getting JSON file at " + jsonFilePath + ". Server returned code " + this.status + " and response\n" + this.response;
       }
     };
 
     request.onerror = function (error) {
-      document.innerHTML = "Error getting JSON file at " + jsonFilePath + ".\n" + error;
+      document.body.innerHTML = "Error getting JSON file at " + jsonFilePath + ".\n" + error;
     }
 
     request.open('GET', app.jsonFile);
