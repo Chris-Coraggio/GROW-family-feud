@@ -1,13 +1,16 @@
 var app = {
   version: 1,
   currentQuestionNumber: 0,
-  jsonFile: "questions.json",
+  jsonFile: "config.json",
   area: document.querySelector('.gameArea'),
   board: document.querySelector('.gameBoard'),
   // Utility functions
   jsonLoaded: function (data) {
-    console.clear()
-    app.questions = data;
+    console.clear();
+    var gameTitle = data.gameTitle ? data.gameTitle : "Family Feud";
+    console.log(gameTitle);
+    document.querySelector(".gameTitle").innerHTML = gameTitle;
+    app.questions = data.questions;
     app.showTitleThenQuestion(0);
   },
   disablePointsButtons: function () {
@@ -165,23 +168,30 @@ var app = {
   // Inital function
   init: function () {
     var request = new XMLHttpRequest();
-    request.open('GET', app.jsonFile, true);
 
-    request.onload = function() {
+    request.onload = function(event) {
+      console.log("What")
       if (this.status >= 200 && this.status < 400) {
         // Success!
-        var data = JSON.parse(this.response);
-        app.jsonLoaded(data);
+        try{
+          var data = JSON.parse(this.response);
+          app.jsonLoaded(data);
+        } catch (e) {
+          alert("Something seems to be wrong with " + event.target.responseURL + " :/. Please validate the JSON and try again.\n" + e);
+        }
       } else {
         // We reached our target server, but it returned an error
+        console.log("Error parsing JSON!");
       }
     };
 
-    request.onerror = function() {
-      // There was a connection error of some sort
-    };
+    request.onerror = function () {
+      console.log("Ah shoot");
+    }
 
+    request.open('GET', app.jsonFile);
     request.send();
+
     document.querySelector("#newQuestion").onclick = app.changeQuestion;
     document.querySelector("#lastQuestion").onclick = app.lastQuestion;
     document.querySelector("#awardTeam1").onclick = () => app.awardPoints(1);
