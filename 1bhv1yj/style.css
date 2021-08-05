@@ -55,7 +55,7 @@ h1 {
   color: #003c7b;
   text-align: center;
   padding: 10px;
-  min-height: 100px;
+  min-height: 80px;
 }
 
 h2 {
@@ -63,7 +63,7 @@ h2 {
   border-radius: 50%;
   border: 2px solid white;
   backdrop-filter: blur(5px);
-  font: small-caps bold 36px 'Raleway', sans-serif;
+  font: small-caps bold 35px/.94 'Raleway', sans-serif;
   margin: 5px;
   text-align: center;
 }
@@ -123,12 +123,6 @@ footer {
   justify-content: space-evenly;
   justify-self: stretch;
   margin: 0 7.5%;
-}
-
-.gameBoard > .bottom {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 150px);
-  align-self: flex-start;
 }
 
 .gameBoard .cardHolder > div,
@@ -200,14 +194,14 @@ footer {
   .gameBoard {
     grid-column-start: 1;
     grid-column-end: 3;
-    margin-bottom: -120px;
   }
 }
 
 .gameArea .score#boardScore {
-  font-size: 65px;
-  height: 119px;
-  line-height: 75px;
+  font-size: 62px;
+  height: 100px;
+  line-height: 60px;
+  margin: 0;
   width: 169px;
 }
 
@@ -220,7 +214,7 @@ footer {
   width:85%;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
   .gameBoard .colHolder {
     flex-direction: column;
   }
@@ -325,10 +319,14 @@ footer {
 }
 
 nav {
-  backdrop-filter: blur(5px);
-  padding: 5px;
-  display: flex;
+  align-items: flex-end;
+  align-self: flex-start;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 160px);
   justify-content: center;
+  justify-self: stretch;
+  grid-gap: 12px;
+  padding: 5px;
 }
 .team {
   display: flex;
@@ -352,4 +350,18 @@ nav {
 nav .button {
   font-size: 20px;
   width: 150px;
+}
+.strikeHolder {
+  backdrop-filter: blur(5px);
+  background: rgba(77, 114, 143, 0.6);
+  background: linear-gradient(
+    to bottom,
+    rgba(77, 114, 143, 0.5) 0%,
+    rgba(48, 77, 99, 0.8) 50%,
+    rgba(77, 114, 143, 0.5) 100%,
+  );
+  border-radius: 5px;
+  margin: 5px 20px;
+  padding-bottom: 2px;
+  z-index: -1;
 }
