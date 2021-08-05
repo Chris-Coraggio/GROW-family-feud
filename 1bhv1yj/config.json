@@ -1,5 +1,6 @@
 {
     "gameTitle": "GROW Friendly Feud",
+    "endingMessage": "Thanks for playing GROW Family Feud!",
     "questions": [
         {
             "title": "Practice Round",
@@ -31,15 +32,15 @@
                 },
                 {
                     "text": "Check Job Postings",
-                    "points": 28
+                    "points": 30
                 },
                 {
                     "text": "Internships/Volunteering",
-                    "points": 20
+                    "points": 21
                 },
                 {
                     "text": "Go To Events",
-                    "points": 12
+                    "points": 14
                 }
             ]
         },
@@ -50,19 +51,19 @@
             [
                 {
                     "text": "Customize to each job",
-                    "points": 24
+                    "points": 34
                 },
                 {
                     "text": "Keep it 1-2 pages",
-                    "points": 20
+                    "points": 30
                 },
                 {
                     "text": "Highlight accomplishments",
-                    "points": 17
+                    "points": 19
                 },
                 {
                     "text": "Use power words / action verbs",
-                    "points": 14
+                    "points": 17
                 }
             ]
         },

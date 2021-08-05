@@ -9,6 +9,7 @@ var app = {
   jsonLoaded: function (data) {
     console.clear();
     var gameTitle = data.gameTitle || "Friendly Feud";
+    app.endingMessage = data.endingMessage || "Thanks for playing GROW Friendly Feud";
     document.querySelector(".gameTitle").innerHTML = gameTitle;
     app.questions = data.questions;
     app.showTitleThenQuestion(0);
@@ -24,8 +25,10 @@ var app = {
   resetBoard: function () {
     var boardScore = app.board.querySelector("#boardScore");
     boardScore.innerHTML = 0;
+
     var col1 = app.board.querySelector(".col1");
     var col2 = app.board.querySelector(".col2");
+    
     //empty out the two columns
     col1.innerHTML = "";
     col2.innerHTML = "";
@@ -75,11 +78,8 @@ var app = {
 
     boardScore.innerHTML = 0;
     question.innerHTML = currentQuestion.question;
-    //empty out the two columns
-    while (col1.firstChild)
-      col1.removeChild(col1.firstChild);
-    while (col2.firstChild)
-      col2.removeChild(col2.firstChild);
+    col1.innerHTML = "";
+    col2.innerHTML = "";
 
     function showCard() {
       var card = this.querySelector(".card");
@@ -155,10 +155,16 @@ var app = {
   changeQuestion: function () {
     if (app.currentQuestionNumber < app.questions.length) {
       app.currentQuestionNumber++;
+      if (app.currentQuestionNumber == app.questions.length) {
+        document.querySelector(".question").innerHTML = app.endingMessage;
+        app.resetBoard();
+      } else {
+        app.showTitleThenQuestion(app.currentQuestionNumber);
+      }
     }
     app.strikes = 0;
     app.displayStrikes();
-    app.showTitleThenQuestion(app.currentQuestionNumber);
+    
   },
   lastQuestion: function () {
     if (app.currentQuestionNumber > 0) {
