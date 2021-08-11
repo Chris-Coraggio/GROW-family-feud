@@ -49,6 +49,7 @@ var app = {
   },
   showTitleThenQuestion: function (currentQuestionNumber) {
     var currentQuestion = app.questions[currentQuestionNumber];
+    var lastQuestion = app.questions[Math.max(currentQuestionNumber - 1, 0)];
     var question = document.querySelector(".question");
 
     app.resetBoard();
@@ -57,6 +58,12 @@ var app = {
       question.innerHTML = currentQuestion.title;
       app.disablePointsButtons();
       document.querySelector("#newQuestion").onclick = () => app.makeQuestion(currentQuestion);
+      if(lastQuestion != currentQuestion) {
+        document.querySelector("#lastQuestion").onclick = () => {
+          app.currentQuestionNumber--;
+          app.makeQuestion(lastQuestion);
+        }
+      }
     } else {
       app.makeQuestion(currentQuestion);
     }
@@ -67,6 +74,13 @@ var app = {
     var answers = currentQuestion.answers;
     app.enablePointsButtons();
     document.querySelector("#newQuestion").onclick = app.changeQuestion;
+    document.querySelector("#lastQuestion").onclick = () => {
+      if(currentQuestion.title) {
+        app.showTitleThenQuestion(app.currentQuestionNumber);
+      } else {
+        app.lastQuestion();
+      }
+    };
 
     // numberOfAnswers is 8 or the nearest even number (rounded up), whichever is highest
     var numberOfAnswers = 2 * Math.ceil(Math.max(8, currentQuestion.answers.length) / 2);
@@ -158,6 +172,10 @@ var app = {
       if (app.currentQuestionNumber == app.questions.length) {
         document.querySelector(".question").innerHTML = app.endingMessage;
         app.resetBoard();
+        document.querySelector("#lastQuestion").onclick = () => {
+          app.currentQuestionNumber--;
+          app.makeQuestion(app.questions[app.currentQuestionNumber]);
+        }
       } else {
         app.showTitleThenQuestion(app.currentQuestionNumber);
       }
@@ -170,7 +188,7 @@ var app = {
     if (app.currentQuestionNumber > 0) {
       app.currentQuestionNumber--;
     }
-    app.showTitleThenQuestion(app.currentQuestionNumber);
+    app.makeQuestion(app.questions[app.currentQuestionNumber]);
   },
   addStrike: function () {
     app.strikes = (app.strikes + 1) % 4;

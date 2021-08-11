@@ -28,19 +28,23 @@
             [
                 {
                     "text": "Network",
-                    "points": 35
+                    "points": 32
                 },
                 {
                     "text": "Check Job Postings",
-                    "points": 30
+                    "points": 27
                 },
                 {
                     "text": "Internships/Volunteering",
-                    "points": 21
+                    "points": 18
                 },
                 {
                     "text": "Go To Events",
-                    "points": 14
+                    "points": 12
+                },
+                {
+                    "text": "Go Above and Beyond in Everyday Life",
+                    "points": 11
                 }
             ]
         },
@@ -51,19 +55,35 @@
             [
                 {
                     "text": "Customize to each job",
-                    "points": 34
+                    "points": 29
                 },
                 {
                     "text": "Keep it 1-2 pages",
-                    "points": 30
+                    "points": 20
                 },
                 {
                     "text": "Highlight accomplishments",
-                    "points": 19
+                    "points": 14
                 },
                 {
                     "text": "Use power words / action verbs",
-                    "points": 17
+                    "points": 12
+                },
+                {
+                    "text": "Get a proofreader",
+                    "points": 10
+                },
+                {
+                    "text": "Add volunteer work, competitions, awards, and certifications",
+                    "points": 7
+                },
+                {
+                    "text": "Highlight relevant class",
+                    "points": 5
+                },
+                {
+                    "text": "Keep it Simple",
+                    "points": 3
                 }
             ]
         },
